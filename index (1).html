@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>UsinerProduction</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <!-- Leaflet Map Library -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -150,28 +153,19 @@
       position: relative;
       overflow: hidden;
       background: #080812;
-
     }
-    /* Fond hero : spot projecteur - lumière vidéaste */
     #hero .hero-bg-overlay {
       position: absolute;
       inset: 0;
       background:
-        /* Spot principal large et lumineux */
         radial-gradient(ellipse 55% 90% at 50% -10%, rgba(220,232,255,0.42) 0%, rgba(190,210,255,0.18) 35%, transparent 68%),
-        /* Halo ambiant autour */
         radial-gradient(ellipse 85% 65% at 50% 15%, rgba(160,180,230,0.18) 0%, transparent 65%),
-        /* Ambiance latérale gauche légère */
         radial-gradient(ellipse 40% 70% at -5% 60%, rgba(100,90,140,0.14) 0%, transparent 60%),
-        /* Ambiance latérale droite légère */
         radial-gradient(ellipse 40% 70% at 105% 60%, rgba(80,70,120,0.12) 0%, transparent 60%),
-        /* Réflexion sol */
         radial-gradient(ellipse 45% 18% at 50% 102%, rgba(100,115,170,0.18) 0%, transparent 65%),
-        /* Base sombre mais pas noire totale */
         linear-gradient(180deg, #080812 0%, #0c0b14 50%, #080810 100%);
       z-index: 0;
     }
-    /* Vignette douce - pas trop agressive */
     #hero .hero-bg-overlay::before {
       content: '';
       position: absolute;
@@ -181,7 +175,6 @@
         linear-gradient(to right, rgba(5,5,12,0.35) 0%, transparent 18%, transparent 82%, rgba(5,5,12,0.35) 100%);
       pointer-events: none;
     }
-    /* Rayon fin du projecteur */
     #hero .hero-bg-overlay::after {
       content: '';
       position: absolute;
@@ -195,7 +188,6 @@
     }
     #hero > *:not(.hero-bg-overlay) { position: relative; z-index: 1; }
 
-    /* Film grain overlay */
     #hero::before {
       content: '';
       position: absolute;
@@ -219,7 +211,6 @@
       90%      { transform: translate(2%,4%); }
     }
 
-    /* Accent line supprimée en mode centré */
     #hero::after { display: none; }
 
     .hero-eyebrow {
@@ -296,8 +287,6 @@
       transition: border-color 0.2s, color 0.2s;
     }
     .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
-
-
 
     @keyframes slideUp {
       to { opacity: 1; transform: translateY(0); }
@@ -392,7 +381,6 @@
       line-height: 1.7;
     }
 
-    /* ── NAV TAGLINE ── */
     .nav-tagline {
       font-size: 0.62rem;
       letter-spacing: 0.18em;
@@ -405,7 +393,6 @@
     }
     nav.scrolled .nav-tagline { opacity: 1; transform: translateX(0); }
 
-    /* ── CONTACT LINKS ── */
     .contact-link {
       text-decoration: none;
       color: var(--text);
@@ -527,94 +514,94 @@
     .trip-map-wrapper {
       position: relative;
       width: 100%;
-      max-width: 1000px;
-      height: 600px;
+      max-width: 1200px;
+      height: 650px;
       background: linear-gradient(135deg, #0d0f12 0%, #11141a 100%);
       border: 1px solid var(--border);
       border-radius: 4px;
       overflow: hidden;
     }
 
-    /* Cloud Animation */
-    @keyframes cloudFloat {
-      0% { transform: translateX(-100%); opacity: 0; }
-      10% { opacity: 1; }
-      90% { opacity: 1; }
-      100% { transform: translateX(100%); opacity: 0; }
-    }
-
-    .cloud {
-      position: absolute;
-      top: 15%;
-      opacity: 0.3;
-      animation: cloudFloat 20s infinite;
-      filter: blur(2px);
-    }
-
-    .cloud:nth-child(1) {
-      width: 250px;
-      height: 60px;
-      animation-delay: 0s;
-      animation-duration: 25s;
-    }
-
-    .cloud:nth-child(2) {
-      width: 180px;
-      height: 50px;
-      top: 35%;
-      animation-delay: 5s;
-      animation-duration: 30s;
-    }
-
-    .cloud:nth-child(3) {
-      width: 200px;
-      height: 55px;
-      top: 50%;
-      animation-delay: 10s;
-      animation-duration: 28s;
-    }
-
-    /* SVG Map Container */
-    .trip-map-svg {
+    #tripMap {
       width: 100%;
       height: 100%;
-      display: block;
+      z-index: 1;
     }
 
-    /* Country paths */
-    .country-path {
-      fill: rgba(168, 152, 128, 0.15);
-      stroke: rgba(168, 152, 128, 0.3);
-      stroke-width: 0.5;
-      transition: fill 0.3s, filter 0.3s;
-      cursor: pointer;
+    /* Override Leaflet default styles */
+    .leaflet-container {
+      background: #0d0f12;
+      font-family: 'Inter', sans-serif;
     }
 
-    .country-path:hover {
-      fill: rgba(168, 152, 128, 0.35);
-      filter: drop-shadow(0 0 8px rgba(168, 152, 128, 0.4));
+    .leaflet-tile-pane {
+      filter: invert(0.9) hue-rotate(200deg) saturate(0.5) brightness(0.8);
     }
 
-    /* Location markers */
-    .location-marker {
-      cursor: pointer;
-      transition: transform 0.3s;
+    .leaflet-marker-icon {
+      filter: hue-rotate(40deg);
     }
 
-    .marker-circle {
-      fill: var(--gold);
-      filter: drop-shadow(0 0 6px rgba(168, 152, 128, 0.6));
+    .custom-marker {
+      background: var(--gold);
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 15px rgba(168, 152, 128, 0.6);
       animation: markerPulse 2s ease-in-out infinite;
     }
 
     @keyframes markerPulse {
-      0%, 100% { r: 5; opacity: 1; }
-      50% { r: 8; opacity: 0.6; }
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.3); box-shadow: 0 0 25px rgba(168, 152, 128, 1); }
     }
 
-    .location-marker:hover .marker-circle {
-      r: 10;
-      filter: drop-shadow(0 0 12px rgba(168, 152, 128, 1));
+    .cloud-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .cloud {
+      position: absolute;
+      opacity: 0.25;
+      filter: blur(3px);
+    }
+
+    @keyframes cloudFloat {
+      0% { transform: translateX(-100%); opacity: 0; }
+      10% { opacity: 0.25; }
+      90% { opacity: 0.25; }
+      100% { transform: translateX(110vw); opacity: 0; }
+    }
+
+    .cloud:nth-child(1) {
+      top: 12%;
+      width: 300px;
+      height: 80px;
+      animation: cloudFloat 35s infinite;
+    }
+
+    .cloud:nth-child(2) {
+      top: 35%;
+      width: 250px;
+      height: 70px;
+      animation: cloudFloat 40s infinite 5s;
+    }
+
+    .cloud:nth-child(3) {
+      top: 60%;
+      width: 280px;
+      height: 75px;
+      animation: cloudFloat 45s infinite 10s;
     }
 
     /* Modal */
@@ -775,26 +762,21 @@
     .footer-copy { font-size: 0.62rem; color: #333; letter-spacing: 0.08em; }
 
     /* ── RESPONSIVE ── */
-    /* ── TABLETTE ── */
     @media (max-width: 1024px) {
       nav { padding: 1.2rem 2rem; }
       section { padding: 6rem 2.5rem; }
       #hero { padding: 0 2.5rem; }
-      .contact-layout { gap: 3rem; }
       .services-grid { grid-template-columns: repeat(2, 1fr); }
       .portfolio-grid { grid-template-columns: repeat(3, 1fr); }
       .trip-map-wrapper { height: 500px; }
       .modal-info { grid-template-columns: 1fr; }
     }
 
-    /* ── MOBILE ── */
     @media (max-width: 768px) {
-      /* Nav */
       nav { padding: 1rem 1.2rem; }
       .nav-links { display: none; }
       .nav-tagline { display: none; }
 
-      /* Hero */
       #hero { padding: 0 1.2rem; text-align: center; }
       .hero-eyebrow { font-size: 0.6rem; letter-spacing: 0.25em; }
       .hero-logo-img { width: min(280px, 78vw); }
@@ -802,32 +784,23 @@
       .hero-sub { font-size: 0.85rem; max-width: 100%; }
       .hero-cta { flex-direction: column; align-items: center; gap: 0.8rem; }
       .btn-primary, .btn-ghost { width: 100%; max-width: 260px; text-align: center; padding: 1rem; }
-      .scroll-indicator { left: 50%; transform: translateX(-50%); }
 
-      /* Sections */
       section { padding: 4rem 1.2rem; }
       .section-title { font-size: clamp(2rem, 10vw, 3rem); }
 
-      /* Services */
       .services-grid { grid-template-columns: 1fr; }
       .service-card { padding: 2rem 1.5rem; }
 
-      /* Portfolio */
       .portfolio-category { margin-bottom: 3.5rem; }
       .portfolio-grid { grid-template-columns: 1fr 1fr; gap: 1px; }
-      .pi-large { grid-column: span 2; }
-      .pi-small { grid-column: span 1; }
       .portfolio-cat-header { grid-template-columns: 2rem 1fr; gap: 0 1rem; }
       .portfolio-cat-label { font-size: 1.8rem; }
       .portfolio-cat-title { font-size: 1.3rem; }
       .portfolio-name { font-size: 1rem; }
 
-      /* Trip */
       #trip { padding: 4rem 1.2rem; }
       .trip-map-wrapper { height: 400px; }
-      .cloud { opacity: 0.2; }
 
-      /* Modal */
       .modal-content {
         width: 95%;
         max-height: 90vh;
@@ -838,25 +811,18 @@
       .modal-video { height: 300px; }
       .modal-info { gap: 1rem; }
 
-      /* Contact */
-      .contact-layout { grid-template-columns: 1fr; gap: 2.5rem; }
-      .form-submit { width: 100%; text-align: center; }
-
-      /* Footer */
       footer { grid-template-columns: 1fr; text-align: center; padding: 2.5rem 1.2rem; gap: 1.5rem; }
       .footer-right { align-items: center; }
       .footer-center { align-items: center; }
       .footer-logo-wrap { justify-content: center; }
     }
 
-    /* ── PETIT MOBILE ── */
     @media (max-width: 380px) {
       .hero-logo-img { width: 72vw; }
       .portfolio-grid { grid-template-columns: 1fr; }
       .pi-large, .pi-small { grid-column: span 1; }
     }
 
-    /* ── SCROLL REVEAL ── */
     .reveal {
       opacity: 0;
       transform: translateY(30px);
@@ -870,7 +836,7 @@
   <!-- NAV -->
   <nav id="navbar">
     <a href="#hero" class="nav-logo">
-      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAf0AAAHqCAYAAAAOH5erAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAB/aADAAQAAAABAAAB6[...]
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAf0AAAHqCAYAAAAOH5erAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAB/aADAAQAAAABAAAB6[...]"
       <span class="nav-tagline">Je capture l'instant, je crée l'émotion</span>
     </a>
     <ul class="nav-links" id="navLinks">
@@ -888,7 +854,7 @@
     <div class="hero-bg-overlay"></div>
     <p class="hero-eyebrow">Réalisation &amp; Post-Production Vidéo</p>
     <div class="hero-logo-wrap">
-      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAApgAAAF4CAYAAADwnYnWAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAACmKADAAQAAAABAAABe[...]
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAApgAAAF4CAYAAADwnYnWAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAACmKADAAQAAAABAAABe[...]"
     </div>
     <p class="hero-tagline">Clips · Mariages · Événements · Entreprises</p>
     <p class="hero-sub">Chaque moment mérite d'être filmé avec intention. Je capture vos histoires et les transforme en visuels qui marquent.</p>
@@ -896,7 +862,6 @@
       <a href="#portfolio" class="btn-primary">Voir le travail</a>
       <a href="#trip" class="btn-ghost">Découvrir mes voyages</a>
     </div>
-
   </section>
 
   <!-- SERVICES -->
@@ -1069,139 +1034,45 @@
 
     <div class="trip-container reveal">
       <div class="trip-map-wrapper">
-        <!-- Clouds animation -->
-        <svg class="cloud" viewBox="0 0 100 30" preserveAspectRatio="xMidYMid slice">
-          <defs>
-            <linearGradient id="cloudGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style="stop-color:rgba(232,224,213,0.4);stop-opacity:1" />
-              <stop offset="100%" style="stop-color:rgba(168,152,128,0.2);stop-opacity:1" />
-            </linearGradient>
-          </defs>
-          <path d="M 20 20 Q 15 10, 25 8 Q 30 5, 35 8 Q 40 10, 38 20 Z" fill="url(#cloudGrad)" />
-          <path d="M 35 22 Q 30 12, 40 10 Q 50 8, 55 12 Q 60 15, 58 25 Z" fill="url(#cloudGrad)" />
-        </svg>
+        <!-- Cloud overlay animations -->
+        <div class="cloud-overlay">
+          <svg class="cloud" viewBox="0 0 120 40">
+            <defs>
+              <linearGradient id="cloudG1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#e8e0d5;stop-opacity:0.5" />
+                <stop offset="100%" style="stop-color:#a89880;stop-opacity:0.2" />
+              </linearGradient>
+            </defs>
+            <ellipse cx="30" cy="20" rx="28" ry="16" fill="url(#cloudG1)" />
+            <ellipse cx="60" cy="18" rx="35" ry="18" fill="url(#cloudG1)" />
+            <ellipse cx="90" cy="20" rx="28" ry="16" fill="url(#cloudG1)" />
+          </svg>
+          <svg class="cloud" viewBox="0 0 100 35">
+            <defs>
+              <linearGradient id="cloudG2" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#e8e0d5;stop-opacity:0.4" />
+                <stop offset="100%" style="stop-color:#a89880;stop-opacity:0.15" />
+              </linearGradient>
+            </defs>
+            <ellipse cx="25" cy="17" rx="24" ry="14" fill="url(#cloudG2)" />
+            <ellipse cx="52" cy="16" rx="30" ry="16" fill="url(#cloudG2)" />
+            <ellipse cx="75" cy="18" rx="24" ry="14" fill="url(#cloudG2)" />
+          </svg>
+          <svg class="cloud" viewBox="0 0 110 38">
+            <defs>
+              <linearGradient id="cloudG3" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#e8e0d5;stop-opacity:0.45" />
+                <stop offset="100%" style="stop-color:#a89880;stop-opacity:0.18" />
+              </linearGradient>
+            </defs>
+            <ellipse cx="28" cy="19" rx="26" ry="15" fill="url(#cloudG3)" />
+            <ellipse cx="58" cy="17" rx="32" ry="17" fill="url(#cloudG3)" />
+            <ellipse cx="85" cy="19" rx="26" ry="15" fill="url(#cloudG3)" />
+          </svg>
+        </div>
 
-        <svg class="cloud" viewBox="0 0 100 30" preserveAspectRatio="xMidYMid slice">
-          <defs>
-            <linearGradient id="cloudGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style="stop-color:rgba(232,224,213,0.3);stop-opacity:1" />
-              <stop offset="100%" style="stop-color:rgba(168,152,128,0.15);stop-opacity:1" />
-            </linearGradient>
-          </defs>
-          <path d="M 15 20 Q 10 12, 20 10 Q 28 8, 32 12 Q 35 15, 33 22 Z" fill="url(#cloudGrad2)" />
-        </svg>
-
-        <svg class="cloud" viewBox="0 0 100 30" preserveAspectRatio="xMidYMid slice">
-          <defs>
-            <linearGradient id="cloudGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style="stop-color:rgba(232,224,213,0.35);stop-opacity:1" />
-              <stop offset="100%" style="stop-color:rgba(168,152,128,0.18);stop-opacity:1" />
-            </linearGradient>
-          </defs>
-          <path d="M 25 20 Q 18 10, 30 8 Q 38 6, 42 10 Q 48 14, 46 22 Z" fill="url(#cloudGrad3)" />
-        </svg>
-
-        <!-- Map SVG -->
-        <svg class="trip-map-svg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet">
-          <!-- World background -->
-          <defs>
-            <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
-              <path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(168,152,128,0.05)" stroke-width="0.5"/>
-            </pattern>
-          </defs>
-          <rect width="1000" height="600" fill="url(#grid)" />
-
-          <!-- Simplified World Map (using country-like shapes) -->
-          <!-- France -->
-          <path class="country-path" d="M 450 250 L 480 240 L 485 260 L 475 275 L 450 270 Z" />
-          <!-- Spain -->
-          <path class="country-path" d="M 420 270 L 450 260 L 450 290 L 420 290 Z" />
-          <!-- Italy -->
-          <path class="country-path" d="M 490 270 L 510 265 L 515 295 L 495 300 Z" />
-          <!-- Germany -->
-          <path class="country-path" d="M 470 220 L 500 215 L 505 240 L 485 245 Z" />
-          <!-- UK -->
-          <path class="country-path" d="M 410 230 L 430 225 L 432 250 L 412 252 Z" />
-          <!-- Poland -->
-          <path class="country-path" d="M 510 200 L 540 195 L 545 225 L 520 230 Z" />
-          <!-- Japan -->
-          <path class="country-path" d="M 820 280 L 840 275 L 845 310 L 825 315 Z" />
-          <!-- Australia -->
-          <path class="country-path" d="M 750 420 L 780 415 L 785 450 L 755 455 Z" />
-          <!-- USA -->
-          <path class="country-path" d="M 150 200 L 280 190 L 285 340 L 155 350 Z" />
-          <!-- Canada -->
-          <path class="country-path" d="M 180 120 L 300 110 L 305 180 L 185 190 Z" />
-          <!-- Brazil -->
-          <path class="country-path" d="M 350 340 L 420 335 L 425 440 L 355 445 Z" />
-          <!-- Mexico -->
-          <path class="country-path" d="M 220 280 L 280 275 L 282 320 L 220 325 Z" />
-          <!-- Thailand -->
-          <path class="country-path" d="M 650 320 L 690 315 L 695 360 L 655 365 Z" />
-          <!-- New Zealand -->
-          <path class="country-path" d="M 840 470 L 860 465 L 865 510 L 845 515 Z" />
-
-          <!-- Location Markers -->
-          <!-- Paris, France -->
-          <g class="location-marker" onclick="showModal('paris')">
-            <circle class="marker-circle" cx="455" cy="260" r="5" />
-            <title>Paris, France</title>
-          </g>
-
-          <!-- Barcelona, Spain -->
-          <g class="location-marker" onclick="showModal('barcelona')">
-            <circle class="marker-circle" cx="435" cy="275" r="5" />
-            <title>Barcelona, Spain</title>
-          </g>
-
-          <!-- Rome, Italy -->
-          <g class="location-marker" onclick="showModal('rome')">
-            <circle class="marker-circle" cx="500" cy="285" r="5" />
-            <title>Rome, Italy</title>
-          </g>
-
-          <!-- Tokyo, Japan -->
-          <g class="location-marker" onclick="showModal('tokyo')">
-            <circle class="marker-circle" cx="835" cy="295" r="5" />
-            <title>Tokyo, Japan</title>
-          </g>
-
-          <!-- Sydney, Australia -->
-          <g class="location-marker" onclick="showModal('sydney')">
-            <circle class="marker-circle" cx="765" cy="435" r="5" />
-            <title>Sydney, Australia</title>
-          </g>
-
-          <!-- New York, USA -->
-          <g class="location-marker" onclick="showModal('newyork')">
-            <circle class="marker-circle" cx="240" cy="250" r="5" />
-            <title>New York, USA</title>
-          </g>
-
-          <!-- Los Angeles, USA -->
-          <g class="location-marker" onclick="showModal('losangeles')">
-            <circle class="marker-circle" cx="120" cy="290" r="5" />
-            <title>Los Angeles, USA</title>
-          </g>
-
-          <!-- Rio, Brazil -->
-          <g class="location-marker" onclick="showModal('rio')">
-            <circle class="marker-circle" cx="400" cy="410" r="5" />
-            <title>Rio, Brazil</title>
-          </g>
-
-          <!-- Bangkok, Thailand -->
-          <g class="location-marker" onclick="showModal('bangkok')">
-            <circle class="marker-circle" cx="680" cy="340" r="5" />
-            <title>Bangkok, Thailand</title>
-          </g>
-
-          <!-- Auckland, New Zealand -->
-          <g class="location-marker" onclick="showModal('auckland')">
-            <circle class="marker-circle" cx="855" cy="495" r="5" />
-            <title>Auckland, New Zealand</title>
-          </g>
-        </svg>
+        <!-- Leaflet Map -->
+        <div id="tripMap"></div>
       </div>
 
       <p style="font-size: 0.9rem; color: var(--muted); margin-top: 1rem; text-align: center;">
@@ -1465,8 +1336,8 @@
   <footer>
     <div class="footer-left">
       <div class="footer-logo-wrap">
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAf0AAAHqCAYAAAAOH5erAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAB/aADAAQAAAABAAA[...]
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAApgAAAF4CAYAAADwnYnWAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAACmKADAAQAAAABAAA[...]
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAf0AAAHqCAYAAAAOH5erAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAB/aADAAQAAAABAAA[...]" style="height:36px; width:auto;">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAApgAAAF4CAYAAADwnYnWAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAACmKADAAQAAAABAAA[...]" style="height:22px; width:auto;">
       </div>
       <p class="footer-phrase">Je capture l'instant, je crée l'émotion</p>
     </div>
@@ -1509,15 +1380,6 @@
       document.getElementById('burger').classList.remove('open');
     }
 
-    // Portfolio filters
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-      });
-    });
-
     // Modal functions for trips
     function showModal(location) {
       const modalId = location + 'Modal';
@@ -1545,7 +1407,7 @@
       }
     });
 
-    // Prevent scroll when modal is open
+    // Close modal on Escape key
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         document.querySelectorAll('.modal.open').forEach(m => {
@@ -1553,6 +1415,56 @@
         });
         document.body.style.overflow = 'auto';
       }
+    });
+
+    // Initialize Leaflet Map
+    let map = L.map('tripMap').setView([20, 0], 2);
+
+    // Use a dark-themed tile layer
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      attribution: '',
+      maxZoom: 19,
+      className: 'dark-map'
+    }).addTo(map);
+
+    // Trip locations with coordinates [lat, lng]
+    const trips = [
+      { name: 'paris', lat: 48.8566, lng: 2.3522, city: 'Paris', modal: 'paris' },
+      { name: 'barcelona', lat: 41.3851, lng: 2.1734, city: 'Barcelona', modal: 'barcelona' },
+      { name: 'rome', lat: 41.9028, lng: 12.4964, city: 'Rome', modal: 'rome' },
+      { name: 'tokyo', lat: 35.6762, lng: 139.6503, city: 'Tokyo', modal: 'tokyo' },
+      { name: 'sydney', lat: -33.8688, lng: 151.2093, city: 'Sydney', modal: 'sydney' },
+      { name: 'newyork', lat: 40.7128, lng: -74.0060, city: 'New York', modal: 'newyork' },
+      { name: 'losangeles', lat: 34.0522, lng: -118.2437, city: 'Los Angeles', modal: 'losangeles' },
+      { name: 'rio', lat: -22.9068, lng: -43.1729, city: 'Rio de Janeiro', modal: 'rio' },
+      { name: 'bangkok', lat: 13.7563, lng: 100.5018, city: 'Bangkok', modal: 'bangkok' },
+      { name: 'auckland', lat: -37.7870, lng: 174.7865, city: 'Auckland', modal: 'auckland' }
+    ];
+
+    // Add markers to map
+    trips.forEach(trip => {
+      const customIcon = L.divIcon({
+        className: 'custom-marker',
+        html: '<div style="width:100%; height:100%;"></div>',
+        iconSize: [20, 20],
+        iconAnchor: [10, 10],
+        popupAnchor: [0, -10]
+      });
+
+      L.marker([trip.lat, trip.lng], { icon: customIcon })
+        .bindPopup(`<div style="font-family:Inter; color:#EFEFEF; text-align:center;">
+          <strong style="font-size:1.1rem; color:#a89880;">${trip.city}</strong><br>
+          <small style="color:#5a5a5a;">Cliquez pour voir la vidéo</small>
+        </div>`)
+        .on('click', function() {
+          showModal(trip.modal);
+        })
+        .addTo(map);
+    });
+
+    // Adjust map on window resize
+    window.addEventListener('resize', function() {
+      setTimeout(() => map.invalidateSize(), 100);
     });
   </script>
 </body>
