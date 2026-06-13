@@ -153,19 +153,28 @@
       position: relative;
       overflow: hidden;
       background: #080812;
+
     }
+    /* Fond hero : spot projecteur - lumière vidéaste */
     #hero .hero-bg-overlay {
       position: absolute;
       inset: 0;
       background:
+        /* Spot principal large et lumineux */
         radial-gradient(ellipse 55% 90% at 50% -10%, rgba(220,232,255,0.42) 0%, rgba(190,210,255,0.18) 35%, transparent 68%),
+        /* Halo ambiant autour */
         radial-gradient(ellipse 85% 65% at 50% 15%, rgba(160,180,230,0.18) 0%, transparent 65%),
+        /* Ambiance latérale gauche légère */
         radial-gradient(ellipse 40% 70% at -5% 60%, rgba(100,90,140,0.14) 0%, transparent 60%),
+        /* Ambiance latérale droite légère */
         radial-gradient(ellipse 40% 70% at 105% 60%, rgba(80,70,120,0.12) 0%, transparent 60%),
+        /* Réflexion sol */
         radial-gradient(ellipse 45% 18% at 50% 102%, rgba(100,115,170,0.18) 0%, transparent 65%),
+        /* Base sombre mais pas noire totale */
         linear-gradient(180deg, #080812 0%, #0c0b14 50%, #080810 100%);
       z-index: 0;
     }
+    /* Vignette douce - pas trop agressive */
     #hero .hero-bg-overlay::before {
       content: '';
       position: absolute;
@@ -175,6 +184,7 @@
         linear-gradient(to right, rgba(5,5,12,0.35) 0%, transparent 18%, transparent 82%, rgba(5,5,12,0.35) 100%);
       pointer-events: none;
     }
+    /* Rayon fin du projecteur */
     #hero .hero-bg-overlay::after {
       content: '';
       position: absolute;
@@ -188,11 +198,12 @@
     }
     #hero > *:not(.hero-bg-overlay) { position: relative; z-index: 1; }
 
+    /* Film grain overlay */
     #hero::before {
       content: '';
       position: absolute;
       inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' result='noise'/%3E%3C/filter%3E%3Crect width='256' height='256' fill='%23000' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' nu[...]
       opacity: 0.025;
       pointer-events: none;
       animation: grain 1.2s steps(1) infinite;
@@ -211,6 +222,7 @@
       90%      { transform: translate(2%,4%); }
     }
 
+    /* Accent line supprimée en mode centré */
     #hero::after { display: none; }
 
     .hero-eyebrow {
@@ -287,6 +299,8 @@
       transition: border-color 0.2s, color 0.2s;
     }
     .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+
 
     @keyframes slideUp {
       to { opacity: 1; transform: translateY(0); }
@@ -381,6 +395,7 @@
       line-height: 1.7;
     }
 
+    /* ── NAV TAGLINE ── */
     .nav-tagline {
       font-size: 0.62rem;
       letter-spacing: 0.18em;
@@ -393,6 +408,7 @@
     }
     nav.scrolled .nav-tagline { opacity: 1; transform: translateX(0); }
 
+    /* ── CONTACT LINKS ── */
     .contact-link {
       text-decoration: none;
       color: var(--text);
@@ -496,216 +512,201 @@
       line-height: 1;
     }
 
-    /* ── TRIP SECTION ── */
-    #trip {
-      background: #080812;
+    /* ── TRAVEL SECTION ── */
+    #travel {
+      background: #07070a;
       position: relative;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .trip-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 3rem;
-    }
-
-    .trip-map-wrapper {
-      position: relative;
-      width: 100%;
-      max-width: 1200px;
-      height: 650px;
-      background: linear-gradient(135deg, #0d0f12 0%, #11141a 100%);
-      border: 1px solid var(--border);
-      border-radius: 4px;
       overflow: hidden;
     }
 
-    #tripMap {
-      width: 100%;
-      height: 100%;
-      z-index: 1;
+    .travel-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
     }
 
-    /* Override Leaflet default styles */
-    .leaflet-container {
-      background: #0d0f12;
-      font-family: 'Inter', sans-serif;
-    }
-
-    .leaflet-tile-pane {
-      filter: invert(0.9) hue-rotate(200deg) saturate(0.5) brightness(0.8);
-    }
-
-    .leaflet-marker-icon {
-      filter: hue-rotate(40deg);
-    }
-
-    .custom-marker {
-      background: var(--gold);
-      border: 2px solid var(--accent);
-      border-radius: 50%;
-      width: 20px;
-      height: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 15px rgba(168, 152, 128, 0.6);
-      animation: markerPulse 2s ease-in-out infinite;
-    }
-
-    @keyframes markerPulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.3); box-shadow: 0 0 25px rgba(168, 152, 128, 1); }
-    }
-
-    .cloud-overlay {
+    .clouds-wrapper {
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
-      bottom: 0;
+      height: 200px;
       pointer-events: none;
       z-index: 2;
+      overflow: hidden;
     }
 
     .cloud {
       position: absolute;
-      opacity: 0.25;
-      filter: blur(3px);
-    }
-
-    @keyframes cloudFloat {
-      0% { transform: translateX(-100%); opacity: 0; }
-      10% { opacity: 0.25; }
-      90% { opacity: 0.25; }
-      100% { transform: translateX(110vw); opacity: 0; }
+      opacity: 0.15;
+      font-size: 120px;
+      color: var(--accent2);
+      font-weight: bold;
+      white-space: nowrap;
     }
 
     .cloud:nth-child(1) {
-      top: 12%;
-      width: 300px;
-      height: 80px;
-      animation: cloudFloat 35s infinite;
+      top: 20px;
+      left: -100px;
+      animation: cloudDrift 25s infinite linear;
     }
 
     .cloud:nth-child(2) {
-      top: 35%;
-      width: 250px;
-      height: 70px;
-      animation: cloudFloat 40s infinite 5s;
+      top: 60px;
+      right: -80px;
+      animation: cloudDriftReverse 30s infinite linear;
     }
 
     .cloud:nth-child(3) {
-      top: 60%;
-      width: 280px;
-      height: 75px;
-      animation: cloudFloat 45s infinite 10s;
+      top: 10px;
+      left: 50%;
+      animation: cloudDrift 35s infinite linear;
     }
 
-    /* Modal */
-    .modal {
+    @keyframes cloudDrift {
+      from { transform: translateX(0); }
+      to { transform: translateX(calc(100vw + 200px)); }
+    }
+
+    @keyframes cloudDriftReverse {
+      from { transform: translateX(0); }
+      to { transform: translateX(calc(-100vw - 200px)); }
+    }
+
+    #mapContainer {
+      width: 100%;
+      height: 500px;
+      border: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
+      margin-top: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .leaflet-container {
+      background: #0a0a0f;
+      border: 1px solid var(--border);
+    }
+
+    .leaflet-control-attribution {
+      background: rgba(8, 8, 8, 0.8) !important;
+      color: var(--muted) !important;
+    }
+
+    .leaflet-control-zoom-in, .leaflet-control-zoom-out {
+      background: rgba(20, 20, 25, 0.9) !important;
+      color: var(--text) !important;
+      border: 1px solid var(--border) !important;
+    }
+
+    .marker-pulse {
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { 
+        box-shadow: 0 0 0 0 rgba(168, 152, 128, 0.7);
+      }
+      50% {
+        box-shadow: 0 0 0 15px rgba(168, 152, 128, 0);
+      }
+    }
+
+    .video-modal {
       display: none;
       position: fixed;
-      z-index: 1000;
-      left: 0;
       top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.95);
-      backdrop-filter: blur(4px);
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
     }
 
-    .modal.open { display: flex; }
+    .video-modal.active {
+      display: flex;
+    }
 
     .modal-content {
-      background-color: rgba(15, 15, 15, 0.98);
-      margin: auto;
-      padding: 0;
+      position: relative;
       width: 90%;
       max-width: 900px;
-      max-height: 80vh;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 2rem;
-      border-bottom: 1px solid var(--border);
-      background: linear-gradient(135deg, rgba(20, 20, 25, 0.8), rgba(15, 15, 20, 0.8));
-    }
-
-    .modal-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.8rem;
-      letter-spacing: 0.06em;
-      color: var(--text);
+      aspect-ratio: 16/9;
     }
 
     .modal-close {
-      background: none;
-      border: none;
+      position: absolute;
+      top: -40px;
+      right: 0;
       color: var(--text);
       font-size: 2rem;
       cursor: pointer;
-      transition: color 0.2s;
+      z-index: 1001;
     }
 
-    .modal-close:hover { color: var(--gold); }
-
-    .modal-body {
-      padding: 2rem;
-      overflow-y: auto;
-      flex: 1;
-    }
-
-    .modal-video {
-      width: 100%;
-      height: 500px;
-      border-radius: 4px;
-      border: 1px solid var(--border);
-      margin-bottom: 1.5rem;
-    }
-
-    .modal-info {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .info-item {
-      padding: 1rem;
-      background: rgba(168, 152, 128, 0.08);
-      border-left: 2px solid var(--gold);
-      border-radius: 2px;
-    }
-
-    .info-label {
-      font-size: 0.7rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
+    .modal-close:hover {
       color: var(--gold);
-      margin-bottom: 0.4rem;
     }
 
-    .info-value {
-      font-size: 0.95rem;
+    .travel-video-item {
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .travel-video-item:hover {
+      transform: scale(1.05);
+    }
+
+    .video-placeholder {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, #1a1a20 0%, #0f0f15 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .video-placeholder::before {
+      content: '▶';
+      position: absolute;
+      font-size: 60px;
+      color: rgba(168, 152, 128, 0.3);
+    }
+
+    .video-info {
+      padding: 1rem;
+      background: rgba(15, 15, 20, 0.8);
+      border-top: 1px solid var(--border);
+    }
+
+    .video-country {
+      font-size: 0.75rem;
+      color: var(--gold);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .video-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem;
       color: var(--text);
+      letter-spacing: 0.05em;
     }
 
-    .modal-description {
-      font-size: 0.9rem;
-      line-height: 1.8;
-      color: var(--muted);
+    .travel-videos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+      position: relative;
+      z-index: 1;
     }
 
     /* ── FOOTER ── */
@@ -722,14 +723,12 @@
     .footer-icon {
       height: 36px; width: 36px;
       object-fit: contain;
-      filter: brightness(0) invert(1);
-      opacity: 0.7;
+      opacity: 0.8;
     }
     .footer-text-logo {
       height: 22px; width: auto;
       object-fit: contain;
-      filter: brightness(0) invert(1);
-      opacity: 0.7;
+      opacity: 0.8;
     }
     .footer-phrase {
       font-size: 0.65rem;
@@ -762,21 +761,25 @@
     .footer-copy { font-size: 0.62rem; color: #333; letter-spacing: 0.08em; }
 
     /* ── RESPONSIVE ── */
+    /* ── TABLETTE ── */
     @media (max-width: 1024px) {
       nav { padding: 1.2rem 2rem; }
       section { padding: 6rem 2.5rem; }
       #hero { padding: 0 2.5rem; }
+      .contact-layout { gap: 3rem; }
       .services-grid { grid-template-columns: repeat(2, 1fr); }
       .portfolio-grid { grid-template-columns: repeat(3, 1fr); }
-      .trip-map-wrapper { height: 500px; }
-      .modal-info { grid-template-columns: 1fr; }
+      #mapContainer { height: 400px; }
     }
 
+    /* ── MOBILE ── */
     @media (max-width: 768px) {
+      /* Nav */
       nav { padding: 1rem 1.2rem; }
       .nav-links { display: none; }
       .nav-tagline { display: none; }
 
+      /* Hero */
       #hero { padding: 0 1.2rem; text-align: center; }
       .hero-eyebrow { font-size: 0.6rem; letter-spacing: 0.25em; }
       .hero-logo-img { width: min(280px, 78vw); }
@@ -784,45 +787,49 @@
       .hero-sub { font-size: 0.85rem; max-width: 100%; }
       .hero-cta { flex-direction: column; align-items: center; gap: 0.8rem; }
       .btn-primary, .btn-ghost { width: 100%; max-width: 260px; text-align: center; padding: 1rem; }
+      .scroll-indicator { left: 50%; transform: translateX(-50%); }
 
+      /* Sections */
       section { padding: 4rem 1.2rem; }
       .section-title { font-size: clamp(2rem, 10vw, 3rem); }
 
+      /* Services */
       .services-grid { grid-template-columns: 1fr; }
       .service-card { padding: 2rem 1.5rem; }
 
+      /* Portfolio */
       .portfolio-category { margin-bottom: 3.5rem; }
       .portfolio-grid { grid-template-columns: 1fr 1fr; gap: 1px; }
+      .pi-large { grid-column: span 2; }
+      .pi-small { grid-column: span 1; }
       .portfolio-cat-header { grid-template-columns: 2rem 1fr; gap: 0 1rem; }
       .portfolio-cat-label { font-size: 1.8rem; }
       .portfolio-cat-title { font-size: 1.3rem; }
       .portfolio-name { font-size: 1rem; }
 
-      #trip { padding: 4rem 1.2rem; }
-      .trip-map-wrapper { height: 400px; }
+      /* Travel */
+      #mapContainer { height: 300px; }
+      .travel-videos-grid { grid-template-columns: 1fr; }
 
-      .modal-content {
-        width: 95%;
-        max-height: 90vh;
-      }
-      .modal-header { padding: 1.5rem; }
-      .modal-title { font-size: 1.4rem; }
-      .modal-body { padding: 1.5rem; }
-      .modal-video { height: 300px; }
-      .modal-info { gap: 1rem; }
+      /* Contact */
+      .contact-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+      .form-submit { width: 100%; text-align: center; }
 
+      /* Footer */
       footer { grid-template-columns: 1fr; text-align: center; padding: 2.5rem 1.2rem; gap: 1.5rem; }
       .footer-right { align-items: center; }
       .footer-center { align-items: center; }
       .footer-logo-wrap { justify-content: center; }
     }
 
+    /* ── PETIT MOBILE ── */
     @media (max-width: 380px) {
       .hero-logo-img { width: 72vw; }
       .portfolio-grid { grid-template-columns: 1fr; }
       .pi-large, .pi-small { grid-column: span 1; }
     }
 
+    /* ── SCROLL REVEAL ── */
     .reveal {
       opacity: 0;
       transform: translateY(30px);
@@ -836,13 +843,13 @@
   <!-- NAV -->
   <nav id="navbar">
     <a href="#hero" class="nav-logo">
-      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAf0AAAHqCAYAAAAOH5erAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAB/aADAAQAAAABAAAB6[...]"
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAf0AAAHqCAYAAAAOH5erAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAB/aADAAQAAAABAAAB6QAAAAAAAAAAAAAAAGNoYXJzZXRAdXRmLTgAAAAA" style="height: 32px; width: auto; opacity: 0.8;" />
       <span class="nav-tagline">Je capture l'instant, je crée l'émotion</span>
     </a>
     <ul class="nav-links" id="navLinks">
       <li><a href="#services" onclick="closeMenu()">Services</a></li>
       <li><a href="#portfolio" onclick="closeMenu()">Portfolio</a></li>
-      <li><a href="#trip" onclick="closeMenu()">Trip</a></li>
+      <li><a href="#travel" onclick="closeMenu()">Travel</a></li>
     </ul>
     <button class="burger" id="burger" onclick="toggleMenu()" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -854,14 +861,15 @@
     <div class="hero-bg-overlay"></div>
     <p class="hero-eyebrow">Réalisation &amp; Post-Production Vidéo</p>
     <div class="hero-logo-wrap">
-      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAApgAAAF4CAYAAADwnYnWAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAACmKADAAQAAAABAAABe[...]"
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAApgAAAF4CAYAAADwnYnWAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAACmKADAAQAAAABAAABe" style="height: 180px; width: auto;" />
     </div>
     <p class="hero-tagline">Clips · Mariages · Événements · Entreprises</p>
     <p class="hero-sub">Chaque moment mérite d'être filmé avec intention. Je capture vos histoires et les transforme en visuels qui marquent.</p>
     <div class="hero-cta">
       <a href="#portfolio" class="btn-primary">Voir le travail</a>
-      <a href="#trip" class="btn-ghost">Découvrir mes voyages</a>
+      <a href="#travel" class="btn-ghost">Découvrir mes voyages</a>
     </div>
+
   </section>
 
   <!-- SERVICES -->
@@ -1026,309 +1034,85 @@
     </div>
   </section>
 
-  <!-- TRIP -->
-  <section id="trip">
-    <p class="section-label reveal">Voyages &amp; Explorations</p>
-    <h2 class="section-title reveal">TRIP</h2>
-    <div class="section-divider reveal"></div>
-
-    <div class="trip-container reveal">
-      <div class="trip-map-wrapper">
-        <!-- Cloud overlay animations -->
-        <div class="cloud-overlay">
-          <svg class="cloud" viewBox="0 0 120 40">
-            <defs>
-              <linearGradient id="cloudG1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#e8e0d5;stop-opacity:0.5" />
-                <stop offset="100%" style="stop-color:#a89880;stop-opacity:0.2" />
-              </linearGradient>
-            </defs>
-            <ellipse cx="30" cy="20" rx="28" ry="16" fill="url(#cloudG1)" />
-            <ellipse cx="60" cy="18" rx="35" ry="18" fill="url(#cloudG1)" />
-            <ellipse cx="90" cy="20" rx="28" ry="16" fill="url(#cloudG1)" />
-          </svg>
-          <svg class="cloud" viewBox="0 0 100 35">
-            <defs>
-              <linearGradient id="cloudG2" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#e8e0d5;stop-opacity:0.4" />
-                <stop offset="100%" style="stop-color:#a89880;stop-opacity:0.15" />
-              </linearGradient>
-            </defs>
-            <ellipse cx="25" cy="17" rx="24" ry="14" fill="url(#cloudG2)" />
-            <ellipse cx="52" cy="16" rx="30" ry="16" fill="url(#cloudG2)" />
-            <ellipse cx="75" cy="18" rx="24" ry="14" fill="url(#cloudG2)" />
-          </svg>
-          <svg class="cloud" viewBox="0 0 110 38">
-            <defs>
-              <linearGradient id="cloudG3" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#e8e0d5;stop-opacity:0.45" />
-                <stop offset="100%" style="stop-color:#a89880;stop-opacity:0.18" />
-              </linearGradient>
-            </defs>
-            <ellipse cx="28" cy="19" rx="26" ry="15" fill="url(#cloudG3)" />
-            <ellipse cx="58" cy="17" rx="32" ry="17" fill="url(#cloudG3)" />
-            <ellipse cx="85" cy="19" rx="26" ry="15" fill="url(#cloudG3)" />
-          </svg>
-        </div>
-
-        <!-- Leaflet Map -->
-        <div id="tripMap"></div>
+  <!-- TRAVEL SECTION -->
+  <section id="travel">
+    <div class="travel-container">
+      <p class="section-label reveal">À travers le monde</p>
+      <h2 class="section-title reveal">MES VOYAGES</h2>
+      <div class="section-divider reveal"></div>
+      
+      <div class="clouds-wrapper">
+        <div class="cloud">☁</div>
+        <div class="cloud">☁</div>
+        <div class="cloud">☁</div>
       </div>
 
-      <p style="font-size: 0.9rem; color: var(--muted); margin-top: 1rem; text-align: center;">
-        Cliquez sur les points pour voir mes vidéos de voyage
-      </p>
+      <div id="mapContainer"></div>
+
+      <div class="travel-videos-grid reveal">
+        <div class="travel-video-item">
+          <div class="video-placeholder" onclick="openVideo('paris')">
+            📍 Paris
+          </div>
+          <div class="video-info">
+            <div class="video-country">France</div>
+            <div class="video-title">VIBES À PARIS</div>
+          </div>
+        </div>
+        <div class="travel-video-item">
+          <div class="video-placeholder" onclick="openVideo('tokyo')">
+            📍 Tokyo
+          </div>
+          <div class="video-info">
+            <div class="video-country">Japon</div>
+            <div class="video-title">TOKYO NIGHT LIFE</div>
+          </div>
+        </div>
+        <div class="travel-video-item">
+          <div class="video-placeholder" onclick="openVideo('ny')">
+            📍 New York
+          </div>
+          <div class="video-info">
+            <div class="video-country">USA</div>
+            <div class="video-title">BIG APPLE VIBES</div>
+          </div>
+        </div>
+        <div class="travel-video-item">
+          <div class="video-placeholder" onclick="openVideo('rio')">
+            📍 Rio
+          </div>
+          <div class="video-info">
+            <div class="video-country">Brésil</div>
+            <div class="video-title">RIO COLORS</div>
+          </div>
+        </div>
+        <div class="travel-video-item">
+          <div class="video-placeholder" onclick="openVideo('sydney')">
+            📍 Sydney
+          </div>
+          <div class="video-info">
+            <div class="video-country">Australie</div>
+            <div class="video-title">SYDNEY COAST</div>
+          </div>
+        </div>
+        <div class="travel-video-item">
+          <div class="video-placeholder" onclick="openVideo('bangkok')">
+            📍 Bangkok
+          </div>
+          <div class="video-info">
+            <div class="video-country">Thaïlande</div>
+            <div class="video-title">BANGKOK STREET</div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- MODALS FOR TRIPS -->
-  <div id="parisModal" class="modal">
+  <!-- VIDEO MODAL -->
+  <div id="videoModal" class="video-modal">
     <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title">Paris, France</h2>
-        <button class="modal-close" onclick="closeModal('paris')">&times;</button>
-      </div>
-      <div class="modal-body">
-        <iframe class="modal-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <div class="modal-info">
-          <div class="info-item">
-            <p class="info-label">Date</p>
-            <p class="info-value">Mars 2024</p>
-          </div>
-          <div class="info-item">
-            <p class="info-label">Durée</p>
-            <p class="info-value">5 jours</p>
-          </div>
-        </div>
-        <p class="modal-description">
-          Une immersion cinématique dans la Ville Lumière. Captures de la Tour Eiffel, promenades le long de la Seine, et moments de vie parisienne authentiques. Un portrait intime de Paris à travers mon objectif.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div id="tokyoModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title">Tokyo, Japan</h2>
-        <button class="modal-close" onclick="closeModal('tokyo')">&times;</button>
-      </div>
-      <div class="modal-body">
-        <iframe class="modal-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <div class="modal-info">
-          <div class="info-item">
-            <p class="info-label">Date</p>
-            <p class="info-value">Juillet 2024</p>
-          </div>
-          <div class="info-item">
-            <p class="info-label">Durée</p>
-            <p class="info-value">10 jours</p>
-          </div>
-        </div>
-        <p class="modal-description">
-          Tokyo en 4K : une symphonie urbaine. Des néons de Shibuya aux temples tranquilles, en passant par les marchés animés et les gratte-ciel vertigineux. Un voyage visuel à travers le contraste du Japon moderne et traditionnel.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div id="sydneyModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title">Sydney, Australia</h2>
-        <button class="modal-close" onclick="closeModal('sydney')">&times;</button>
-      </div>
-      <div class="modal-body">
-        <iframe class="modal-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <div class="modal-info">
-          <div class="info-item">
-            <p class="info-label">Date</p>
-            <p class="info-value">Novembre 2024</p>
-          </div>
-          <div class="info-item">
-            <p class="info-label">Durée</p>
-            <p class="info-value">8 jours</p>
-          </div>
-        </div>
-        <p class="modal-description">
-          Sydney : plages dorées, architecture iconique et énergie australienne. L'Opéra, Bondi Beach au coucher de soleil, et les paysages côtiers sauvages. Une célébration visuelle de la beauté australienne.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div id="barcelonaModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title">Barcelona, Spain</h2>
-        <button class="modal-close" onclick="closeModal('barcelona')">&times;</button>
-      </div>
-      <div class="modal-body">
-        <iframe class="modal-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <div class="modal-info">
-          <div class="info-item">
-            <p class="info-label">Date</p>
-            <p class="info-value">Mai 2024</p>
-          </div>
-          <div class="info-item">
-            <p class="info-label">Durée</p>
-            <p class="info-value">4 jours</p>
-          </div>
-        </div>
-        <p class="modal-description">
-          Barcelona vibrante : Gaudi, plages méditerranéennes et vie nocturne. De la Sagrada Familia aux ruelles gothiques, une exploration cinématique de la capitale catalane.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div id="romeModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title">Rome, Italy</h2>
-        <button class="modal-close" onclick="closeModal('rome')">&times;</button>
-      </div>
-      <div class="modal-body">
-        <iframe class="modal-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <div class="modal-info">
-          <div class="info-item">
-            <p class="info-label">Date</p>
-            <p class="info-value">Septembre 2024</p>
-          </div>
-          <div class="info-item">
-            <p class="info-label">Durée</p>
-            <p class="info-value">6 jours</p>
-          </div>
-        </div>
-        <p class="modal-description">
-          La Ville Éternelle capturée en cinéma : le Colosseum, le Vatican, les fontaines baroques. Une plongée historique et esthétique dans le cœur de l'Italie.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div id="newyorkModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title">New York, USA</h2>
-        <button class="modal-close" onclick="closeModal('newyork')">&times;</button>
-      </div>
-      <div class="modal-body">
-        <iframe class="modal-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <div class="modal-info">
-          <div class="info-item">
-            <p class="info-label">Date</p>
-            <p class="info-value">Février 2024</p>
-          </div>
-          <div class="info-item">
-            <p class="info-label">Durée</p>
-            <p class="info-value">7 jours</p>
-          </div>
-        </div>
-        <p class="modal-description">
-          New York dans tous ses états : les gratte-ciel illuminés, Times Square, Central Park sous la neige. L'énergie brute de la Big Apple documentée en cinéma urbain.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div id="losangelesModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title">Los Angeles, USA</h2>
-        <button class="modal-close" onclick="closeModal('losangeles')">&times;</button>
-      </div>
-      <div class="modal-body">
-        <iframe class="modal-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <div class="modal-info">
-          <div class="info-item">
-            <p class="info-label">Date</p>
-            <p class="info-value">Août 2024</p>
-          </div>
-          <div class="info-item">
-            <p class="info-label">Durée</p>
-            <p class="info-value">9 jours</p>
-          </div>
-        </div>
-        <p class="modal-description">
-          Los Angeles : plages de rêve, ciel bleu permanent et lifestyle californien. Hollywood, Santa Monica Pier et les paysages du désert proche. Une ode visuelle à la Californie.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div id="rioModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title">Rio de Janeiro, Brazil</h2>
-        <button class="modal-close" onclick="closeModal('rio')">&times;</button>
-      </div>
-      <div class="modal-body">
-        <iframe class="modal-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <div class="modal-info">
-          <div class="info-item">
-            <p class="info-label">Date</p>
-            <p class="info-value">Janvier 2024</p>
-          </div>
-          <div class="info-item">
-            <p class="info-label">Durée</p>
-            <p class="info-value">5 jours</p>
-          </div>
-        </div>
-        <p class="modal-description">
-          Rio en technicolor : Christ Rédempteur, Copacabana Beach et la vibrante culture brésilienne. Énergie, couleurs et passion du Brésil capturées en cinéma.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div id="bangkokModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title">Bangkok, Thailand</h2>
-        <button class="modal-close" onclick="closeModal('bangkok')">&times;</button>
-      </div>
-      <div class="modal-body">
-        <iframe class="modal-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <div class="modal-info">
-          <div class="info-item">
-            <p class="info-label">Date</p>
-            <p class="info-value">Avril 2024</p>
-          </div>
-          <div class="info-item">
-            <p class="info-label">Durée</p>
-            <p class="info-value">6 jours</p>
-          </div>
-        </div>
-        <p class="modal-description">
-          Bangkok : temples dorés, marchés flottants et chaos urbain poétique. Une immersion sensorielle en Thaïlande, capturing l'essence du Royaume du Sourire.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div id="aucklandModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title">Auckland, New Zealand</h2>
-        <button class="modal-close" onclick="closeModal('auckland')">&times;</button>
-      </div>
-      <div class="modal-body">
-        <iframe class="modal-video" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <div class="modal-info">
-          <div class="info-item">
-            <p class="info-label">Date</p>
-            <p class="info-value">Décembre 2024</p>
-          </div>
-          <div class="info-item">
-            <p class="info-label">Durée</p>
-            <p class="info-value">7 jours</p>
-          </div>
-        </div>
-        <p class="modal-description">
-          Auckland et la Nouvelle-Zélande : paysages épiques, fjords majestueux et l'essence de l'aventure. Du ciel bleu aux montagnes dramatiques, une célébration visuelle du pays.
-        </p>
-      </div>
+      <span class="modal-close" onclick="closeVideo()">✕</span>
+      <iframe id="videoFrame" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%;height:100%;"></iframe>
     </div>
   </div>
 
@@ -1336,8 +1120,8 @@
   <footer>
     <div class="footer-left">
       <div class="footer-logo-wrap">
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAf0AAAHqCAYAAAAOH5erAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAB/aADAAQAAAABAAA[...]" style="height:36px; width:auto;">
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAApgAAAF4CAYAAADwnYnWAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAACmKADAAQAAAABAAA[...]" style="height:22px; width:auto;">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAf0AAAHqCAYAAAAOH5erAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAB/aADAAQAAAABAAA" class="footer-icon" />
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAApgAAAF4CAYAAADwnYnWAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAACmKADAAQAAAABAAA" class="footer-text-logo" />
       </div>
       <p class="footer-phrase">Je capture l'instant, je crée l'émotion</p>
     </div>
@@ -1380,91 +1164,83 @@
       document.getElementById('burger').classList.remove('open');
     }
 
-    // Modal functions for trips
-    function showModal(location) {
-      const modalId = location + 'Modal';
-      const modal = document.getElementById(modalId);
-      if (modal) {
-        modal.classList.add('open');
-        document.body.style.overflow = 'hidden';
-      }
-    }
-
-    function closeModal(location) {
-      const modalId = location + 'Modal';
-      const modal = document.getElementById(modalId);
-      if (modal) {
-        modal.classList.remove('open');
-        document.body.style.overflow = 'auto';
-      }
-    }
-
-    // Close modal on background click
-    window.addEventListener('click', (e) => {
-      if (e.target.classList.contains('modal')) {
-        e.target.classList.remove('open');
-        document.body.style.overflow = 'auto';
-      }
-    });
-
-    // Close modal on Escape key
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        document.querySelectorAll('.modal.open').forEach(m => {
-          m.classList.remove('open');
-        });
-        document.body.style.overflow = 'auto';
-      }
-    });
-
-    // Initialize Leaflet Map
-    let map = L.map('tripMap').setView([20, 0], 2);
-
-    // Use a dark-themed tile layer
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-      attribution: '',
-      maxZoom: 19,
-      className: 'dark-map'
-    }).addTo(map);
-
-    // Trip locations with coordinates [lat, lng]
-    const trips = [
-      { name: 'paris', lat: 48.8566, lng: 2.3522, city: 'Paris', modal: 'paris' },
-      { name: 'barcelona', lat: 41.3851, lng: 2.1734, city: 'Barcelona', modal: 'barcelona' },
-      { name: 'rome', lat: 41.9028, lng: 12.4964, city: 'Rome', modal: 'rome' },
-      { name: 'tokyo', lat: 35.6762, lng: 139.6503, city: 'Tokyo', modal: 'tokyo' },
-      { name: 'sydney', lat: -33.8688, lng: 151.2093, city: 'Sydney', modal: 'sydney' },
-      { name: 'newyork', lat: 40.7128, lng: -74.0060, city: 'New York', modal: 'newyork' },
-      { name: 'losangeles', lat: 34.0522, lng: -118.2437, city: 'Los Angeles', modal: 'losangeles' },
-      { name: 'rio', lat: -22.9068, lng: -43.1729, city: 'Rio de Janeiro', modal: 'rio' },
-      { name: 'bangkok', lat: 13.7563, lng: 100.5018, city: 'Bangkok', modal: 'bangkok' },
-      { name: 'auckland', lat: -37.7870, lng: 174.7865, city: 'Auckland', modal: 'auckland' }
-    ];
-
-    // Add markers to map
-    trips.forEach(trip => {
-      const customIcon = L.divIcon({
-        className: 'custom-marker',
-        html: '<div style="width:100%; height:100%;"></div>',
-        iconSize: [20, 20],
-        iconAnchor: [10, 10],
-        popupAnchor: [0, -10]
+    // Initialize Map
+    let map;
+    function initMap() {
+      map = L.map('mapContainer', {
+        center: [20, 0],
+        zoom: 2,
+        minZoom: 2,
+        maxZoom: 8,
+        dragging: true,
+        touchZoom: true,
+        scrollWheelZoom: true,
+        doubleClickZoom: true,
+        boxZoom: true
       });
 
-      L.marker([trip.lat, trip.lng], { icon: customIcon })
-        .bindPopup(`<div style="font-family:Inter; color:#EFEFEF; text-align:center;">
-          <strong style="font-size:1.1rem; color:#a89880;">${trip.city}</strong><br>
-          <small style="color:#5a5a5a;">Cliquez pour voir la vidéo</small>
-        </div>`)
-        .on('click', function() {
-          showModal(trip.modal);
-        })
-        .addTo(map);
-    });
+      // Add dark map tiles
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OpenStreetMap contributors',
+        maxZoom: 19
+      }).addTo(map);
 
-    // Adjust map on window resize
-    window.addEventListener('resize', function() {
-      setTimeout(() => map.invalidateSize(), 100);
+      // Video locations with real coordinates
+      const locations = [
+        { coords: [48.8566, 2.3522], name: 'Paris', country: 'FR', video: 'paris' },
+        { coords: [41.3851, 2.1734], name: 'Barcelona', country: 'ES', video: 'barcelona' },
+        { coords: [41.9028, 12.4964], name: 'Rome', country: 'IT', video: 'rome' },
+        { coords: [35.6762, 139.6503], name: 'Tokyo', country: 'JP', video: 'tokyo' },
+        { coords: [-33.8688, 151.2093], name: 'Sydney', country: 'AU', video: 'sydney' },
+        { coords: [40.7128, -74.0060], name: 'New York', country: 'US', video: 'ny' },
+        { coords: [34.0522, -118.2437], name: 'Los Angeles', country: 'US', video: 'la' },
+        { coords: [-22.9068, -43.1729], name: 'Rio', country: 'BR', video: 'rio' },
+        { coords: [13.7563, 100.5018], name: 'Bangkok', country: 'TH', video: 'bangkok' },
+        { coords: [-37.7870, 174.7865], name: 'Auckland', country: 'NZ', video: 'auckland' }
+      ];
+
+      // Add markers
+      locations.forEach(location => {
+        const markerIcon = L.divIcon({
+          className: 'marker-pulse',
+          html: '<div style="width: 16px; height: 16px; background: #a89880; border-radius: 50%; border: 2px solid #e8e0d5; box-shadow: 0 0 10px rgba(168,152,128,0.6);"></div>',
+          iconSize: [20, 20],
+          iconAnchor: [10, 10]
+        });
+
+        const marker = L.marker(location.coords, { icon: markerIcon }).addTo(map);
+        marker.bindPopup(`<div style="color: #e8e0d5; font-family: Inter; background: #0a0a0f; padding: 10px; border: 1px solid #1c1c1c;"><strong>${location.name}</strong><br>${location.country}<br><small style="color: #a89880; cursor: pointer;" onclick="openVideo('${location.video}')">Voir vidéo →</small></div>`);
+      });
+    }
+
+    // Video modal functions
+    const videoLinks = {
+      'paris': 'https://www.youtube.com/embed/grszAOYAauM?rel=0&modestbranding=1',
+      'tokyo': 'https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0&modestbranding=1',
+      'ny': 'https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0&modestbranding=1',
+      'rio': 'https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0&modestbranding=1',
+      'sydney': 'https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0&modestbranding=1',
+      'bangkok': 'https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0&modestbranding=1'
+    };
+
+    function openVideo(videoId) {
+      const modal = document.getElementById('videoModal');
+      const iframe = document.getElementById('videoFrame');
+      iframe.src = videoLinks[videoId] || 'https://www.youtube.com/embed/dQw4w9WgXcQ';
+      modal.classList.add('active');
+    }
+
+    function closeVideo() {
+      document.getElementById('videoModal').classList.remove('active');
+      document.getElementById('videoFrame').src = '';
+    }
+
+    // Initialize when document is ready
+    document.addEventListener('DOMContentLoaded', initMap);
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeVideo();
     });
   </script>
 </body>
